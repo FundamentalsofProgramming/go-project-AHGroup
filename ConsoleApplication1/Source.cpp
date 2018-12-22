@@ -9,7 +9,15 @@
 #include <allegro5/allegro_native_dialog.h> 
 #include <allegro5/allegro_acodec.h>
 #include<math.h>
-int mohre[20][20][4] = { 0 };
+struct mohre
+{
+	int x = 0 ;
+	int y =  0 ;
+	int color =  0 ;
+	bool condition = false;
+	int shomarande = 0;
+	int reshte = 0;
+};
 void init_display(int x, int y) {
 	ALLEGRO_DISPLAY *display = al_create_display(x, y);
 	al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -92,20 +100,20 @@ void start(int x, int y) {
 	al_flip_display();
 	al_rest(1);
 }
-void table(const int n, int x, int y) {
-	int k = -(9 * y / 11) / (n - 1);
+void table(mohre marble[20][20],const int LinesNum, int x, int y) {
+	int k = -(9 * y / 11) / (LinesNum - 1);
 	int d = -k;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < LinesNum; i++)
 	{
 		k += d;
-		for (int j = 0; j < n; j++)
+		for (int j = 0; j < LinesNum; j++)
 		{
-			al_draw_filled_circle((x - (n - 1)*d) / 2 + (i*(d)), (y - (n - 1)*d) / 2 + (j*(d)), y / 200, al_map_rgb(0, 0, 0)); //drawing tiny circles where tow lines cross each other.
-			mohre[i][j][0] = (x - (n - 1)*d) / 2 + (i*(d));
-			mohre[i][j][1] = (y - (n - 1)*d) / 2 + (j*(d));
+			al_draw_filled_circle((x - (LinesNum - 1)*d) / 2 + (i*(d)), (y - (LinesNum - 1)*d) / 2 + (j*(d)), y / 200, al_map_rgb(0, 0, 0)); //drawing tiny circles where tow lines cross each other.
+			marble[i][j].x = (x - (LinesNum - 1)*d) / 2 + (i*(d));
+			marble[i][j].y = (y - (LinesNum - 1)*d) / 2 + (j*(d));
 		}
-		al_draw_line((x - (n - 1)*d) / 2 + k, (y - (n - 1)*d) / 2, (x - (n - 1)*d) / 2 + k, (y - (n - 1)*d) / 2 + (n - 1)*d, al_map_rgb(0, 0, 0), y / 200);
-		al_draw_line((x - (n - 1)*d) / 2, (y - (n - 1)*d) / 2 + k, (x - (n - 1)*d) / 2 + (n - 1)*d, (y - (n - 1)*d) / 2 + k, al_map_rgb(0, 0, 0), y / 200);
+		al_draw_line((x - (LinesNum - 1)*d) / 2 + k, (y - (LinesNum - 1)*d) / 2, (x - (LinesNum - 1)*d) / 2 + k, (y - (LinesNum - 1)*d) / 2 + (LinesNum - 1)*d, al_map_rgb(0, 0, 0), y / 200);
+		al_draw_line((x - (LinesNum - 1)*d) / 2, (y - (LinesNum - 1)*d) / 2 + k, (x - (LinesNum - 1)*d) / 2 + (LinesNum - 1)*d, (y - (LinesNum - 1)*d) / 2 + k, al_map_rgb(0, 0, 0), y / 200);
 	}
 	al_flip_display();
 }
@@ -125,47 +133,146 @@ void mouseCourser(float &x, float &y) {
 		}
 	}
 }
-int taghatoeYaab(float a, float b, const int n) {
-	for (int i = 0; i < n; i++)
+int taghatoeYaab(mohre marble[20][20],float a, float b, const int LinesNum) {
+	for (int i = 0; i < LinesNum; i++)
 	{
-		for (int j = 0; j < n; j++)
+		for (int j = 0; j < LinesNum; j++)
 		{
-			if ((pow((a - (mohre[i][j][0])), 2) + pow(b - (mohre[i][j][1]), 2) < 400) && (mohre[i][j][2] == 0)) {
-
+			if ((pow((a - (marble[i][j].x)), 2) + pow(b - (marble[i][j].y), 2) < 400) && (marble[i][j].condition == false)) {
 				return i * 100 + j;
 			}
 		}
 	}
 	return -1;
 }
-void drawmohre(int tgt, int y, int n, int c) {
+void reshte(mohre marble[20][20], int i,int j, int color, const int LinesNum,int shomarande) {
+	for (int h = -1; h < 2; h++)
+	{
+		for (int v = -1; v < 2; v++)
+		{
+			if (h==0 && v==0) continue;
+			if (i + h<0 || j + v<0 || i + h >= LinesNum || h + v >= LinesNum)continue;
+			if (marble[i + h][j + v].color == color && marble[i + h][j + v].reshte != shomarande) {
+				marble[i + h][j + v].reshte = shomarande;
+				reshte(marble, i+h,j+v, color, LinesNum,shomarande);
+			}
+		}
+	}
+}
+void Capturing(mohre marble[20][20], int LinesNum) {
+	int sw;
+	bool A[20][20] = { false };
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
+		{
+			if (!marble[i][j].condition) continue;
+			sw = 0;
+			for (int h = -1; h < 2; h++)
+			{
+				for (int v = -1; v < 2; v++)
+				{
+					if (h*v) continue;
+					if (i + h<0 || j + v<0 || i + h >= LinesNum || h + v >= LinesNum)continue;
+					if (!marble[i+h][j+v].condition) sw = 1;
+					if (sw == 1) break;
+				}
+				if (sw == 1) break;
+				}
+			if (sw == 0) {
+				A[i][j] = true;
+			}
+		}
+	}
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
+		{
+			if (A[i][j]) {
+				if (!marble[i][j].reshte) marble[i][j].condition = false;
+				else {
+					sw = 0;
+					for (int f = 0; f < LinesNum; f++)
+					{
+						for (int l = 0; l < LinesNum; l++)
+						{
+							if (marble[i][j].reshte == marble[f][l].reshte && A[f][l] == false) {
+								sw++;
+								break;
+							}
+							if (sw) break;
+						}
+						if (sw) break;
+
+					}
+					if (!sw) {
+						for (int f = 0; f < LinesNum; f++)
+						{
+							for (int l = 0; l < LinesNum; l++)
+							{
+								if (marble[i][j].reshte == marble[f][l].reshte) {
+									marble[f][l].condition = false;
+									/*
+									
+									
+									
+									
+									
+									
+									
+									
+									
+											INJA BAYAD marble[f][l] AZ SAFHE HAZF SHE VA EMTIAZESH BE RANG DIGE BERE:/
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									*/
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+void drawmohre(mohre marble[20][20],int tgt, int y, int LinesNum, int shomarande) {
+	int c = shomarande % 2;
 	int k;
-	if (n == 19)k = y / 60;
-	else if (n == 13)k = y / 38;
-	else if (n == 9)k = y / 25;
+	if (LinesNum == 19)k = y / 60;
+	if (LinesNum == 13)k = y / 38;
+	if (LinesNum == 9)k = y / 25;
 	int j = tgt % 100;
 	int i = (tgt - j) / 100;
-	al_draw_filled_circle(mohre[i][j][0], mohre[i][j][1], k, al_map_rgb(255 * c, 255 * c, 255 * c));
-	mohre[i][j][2] = c % 2 + 1;
-
-
+	al_draw_filled_circle(marble[i][j].x, marble[i][j].y, k, al_map_rgb(255 * c, 255 * c, 255 * c));
 	al_flip_display();
+	marble[i][j].color = c + 1;
+	marble[i][j].condition = true;
+	marble[i][j].shomarande = shomarande;
+	reshte(marble, i, j, marble[i][j].color, LinesNum,shomarande);
 }
 int main() {
+	mohre marble[20][20];
 	float a, b;
+	int shomarande = 0;
+	int LinesNum = 9;
 	int  x, y;
-	int c = 0;
-
-	int n = 19;
 	GetDisplayResolution(x, y);
 	start(x, y);
-	table(n, x, y);
+	table(marble,LinesNum, x, y);
 	while (true) {
 		mouseCourser(a, b);
-		if (taghatoeYaab(a, b, n) > -1) {
-			c++;
-			drawmohre(taghatoeYaab(a, b, n), y, n, c % 2);
+		if (taghatoeYaab(marble,a, b, LinesNum) + 1) {
+			shomarande++;
+			drawmohre(marble,taghatoeYaab(marble,a, b, LinesNum), y, LinesNum, shomarande);
+			Capturing(marble, LinesNum);
 		}
-
 	}
 }
