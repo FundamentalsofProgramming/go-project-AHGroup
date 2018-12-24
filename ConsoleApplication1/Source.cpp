@@ -9,6 +9,7 @@
 #include <allegro5/allegro_native_dialog.h> 
 #include <allegro5/allegro_acodec.h>
 #include<math.h>
+#include <conio.h>
 struct mohre
 {
 	int x = 0 ;
@@ -77,6 +78,8 @@ void start(int x, int y) {
 	al_flip_display();
 	al_rest(0.04);
 	}
+
+	/*
 	init_text();
 	ALLEGRO_FONT *font;
 	print_text(font, "Go Game", y / 9, x / 2, 5 * y / 12, 255, 255, 255, "cambriai.ttf");
@@ -99,6 +102,7 @@ void start(int x, int y) {
 	al_clear_to_color(al_map_rgb(125, 61, 0));
 	al_flip_display();
 	al_rest(1);
+	*/
 }
 void table(mohre marble[20][20],const int LinesNum, int x, int y) {
 	int k = -(9 * y / 11) / (LinesNum - 1);
@@ -150,7 +154,7 @@ void reshte(mohre marble[20][20], int i,int j, int color, const int LinesNum,int
 	{
 		for (int v = -1; v < 2; v++)
 		{
-			if (h==0 && v==0) continue;
+			if (h*v!=0) continue;
 			if (i + h<0 || j + v<0 || i + h >= LinesNum || h + v >= LinesNum)continue;
 			if (marble[i + h][j + v].color == color && marble[i + h][j + v].reshte != shomarande) {
 				marble[i + h][j + v].reshte = shomarande;
@@ -189,7 +193,10 @@ void Capturing(mohre marble[20][20], int LinesNum) {
 		for (int j = 0; j < LinesNum; j++)
 		{
 			if (A[i][j]) {
-				if (!marble[i][j].reshte) marble[i][j].condition = false;
+				if (!marble[i][j].reshte) {
+					marble[i][j].condition = false;
+					marble[i][j].color = 0;
+				}
 				else {
 					sw = 0;
 					for (int f = 0; f < LinesNum; f++)
@@ -200,7 +207,6 @@ void Capturing(mohre marble[20][20], int LinesNum) {
 								sw++;
 								break;
 							}
-							if (sw) break;
 						}
 						if (sw) break;
 
@@ -212,6 +218,8 @@ void Capturing(mohre marble[20][20], int LinesNum) {
 							{
 								if (marble[i][j].reshte == marble[f][l].reshte) {
 									marble[f][l].condition = false;
+									marble[f][l].color = 0;
+									marble[f][l].reshte = 0;
 									/*
 									
 									
@@ -243,6 +251,17 @@ void Capturing(mohre marble[20][20], int LinesNum) {
 		}
 	}
 }
+void printmarble(mohre marble[20][20], int LinesNum) {
+	system("CLS");
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
+		{
+			printf("%d ", marble[j][i].color);
+		}
+		printf("\n");
+	}
+}
 void drawmohre(mohre marble[20][20],int tgt, int y, int LinesNum, int shomarande) {
 	int c = shomarande % 2;
 	int k;
@@ -257,6 +276,21 @@ void drawmohre(mohre marble[20][20],int tgt, int y, int LinesNum, int shomarande
 	marble[i][j].condition = true;
 	marble[i][j].shomarande = shomarande;
 	reshte(marble, i, j, marble[i][j].color, LinesNum,shomarande);
+}
+int suicide(mohre marble[20][20], int LinesNum, int tgt,int &shomarande) {
+	int j = tgt % 100;
+	int i = (tgt - j) / 100;
+	if (marble[i][j].condition==false && !marble[i][j].reshte) {
+		marble[i][j].condition = true;
+		marble[i][j].color = shomarande % 2 + 1;
+		Capturing(marble, LinesNum);
+		if (marble[i][j].condition) return 2;
+		else {
+			shomarande--;
+			return 1;
+		}
+	}
+	return 0;
 }
 int main() {
 	mohre marble[20][20];
@@ -273,6 +307,10 @@ int main() {
 			shomarande++;
 			drawmohre(marble,taghatoeYaab(marble,a, b, LinesNum), y, LinesNum, shomarande);
 			Capturing(marble, LinesNum);
+
+			suicide(marble, LinesNum, taghatoeYaab(marble, a, b, LinesNum), shomarande);
+			printmarble(marble, LinesNum);
+
 		}
 	}
 }
