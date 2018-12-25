@@ -155,7 +155,7 @@ void reshte(mohre marble[20][20], int i,int j, int color, const int LinesNum,int
 		for (int v = -1; v < 2; v++)
 		{
 			if (h*v!=0) continue;
-			if (i + h<0 || j + v<0 || i + h >= LinesNum || h + v >= LinesNum)continue;
+			if (i + h<0 || j + v<0 || i + h >= LinesNum || j + v >= LinesNum)continue;
 			if (marble[i + h][j + v].color == color && marble[i + h][j + v].reshte != shomarande) {
 				marble[i + h][j + v].reshte = shomarande;
 				reshte(marble, i+h,j+v, color, LinesNum,shomarande);
@@ -163,8 +163,9 @@ void reshte(mohre marble[20][20], int i,int j, int color, const int LinesNum,int
 		}
 	}
 }
-void Capturing(mohre marble[20][20], int LinesNum) {
+int Capturing(mohre marble[20][20], int LinesNum) {
 	int sw;
+	int sw1 = 0;
 	bool A[20][20] = { false };
 	for (int i = 0; i < LinesNum; i++)
 	{
@@ -177,7 +178,7 @@ void Capturing(mohre marble[20][20], int LinesNum) {
 				for (int v = -1; v < 2; v++)
 				{
 					if (h*v) continue;
-					if (i + h<0 || j + v<0 || i + h >= LinesNum || h + v >= LinesNum)continue;
+					if (i + h<0 || j + v<0 || i + h >= LinesNum || j + v >= LinesNum)continue;
 					if (!marble[i+h][j+v].condition) sw = 1;
 					if (sw == 1) break;
 				}
@@ -194,8 +195,10 @@ void Capturing(mohre marble[20][20], int LinesNum) {
 		{
 			if (A[i][j]) {
 				if (!marble[i][j].reshte) {
+					marble[i][j].reshte = 0;
 					marble[i][j].condition = false;
-					marble[i][j].color = 0;
+					//marble[i][j].color = 0;
+					sw1++;
 				}
 				else {
 					sw = 0;
@@ -218,8 +221,9 @@ void Capturing(mohre marble[20][20], int LinesNum) {
 							{
 								if (marble[i][j].reshte == marble[f][l].reshte) {
 									marble[f][l].condition = false;
-									marble[f][l].color = 0;
-									marble[f][l].reshte = 0;
+									//marble[f][l].color = 0;
+									//marble[f][l].reshte = 0;
+									sw1++;
 									/*
 									
 									
@@ -230,7 +234,7 @@ void Capturing(mohre marble[20][20], int LinesNum) {
 									
 									
 									
-											INJA BAYAD marble[f][l] AZ SAFHE HAZF SHE VA EMTIAZESH BE RANG DIGE BERE:/
+											INJA BAYAD marble[f][l] AZ SAFHE HAZF SHE VA EMTIAZESH BE RANG DIGE BERE :|
 									
 									
 									
@@ -250,6 +254,8 @@ void Capturing(mohre marble[20][20], int LinesNum) {
 			}
 		}
 	}
+	return sw1;
+	return 0;
 }
 void printmarble(mohre marble[20][20], int LinesNum) {
 	system("CLS");
@@ -257,7 +263,7 @@ void printmarble(mohre marble[20][20], int LinesNum) {
 	{
 		for (int j = 0; j < LinesNum; j++)
 		{
-			printf("%d ", marble[j][i].color);
+			printf("%d ", marble[j][i].condition);
 		}
 		printf("\n");
 	}
@@ -280,7 +286,17 @@ void drawmohre(mohre marble[20][20],int tgt, int y, int LinesNum, int shomarande
 int suicide(mohre marble[20][20], int LinesNum, int tgt,int &shomarande) {
 	int j = tgt % 100;
 	int i = (tgt - j) / 100;
-	if (marble[i][j].condition==false && !marble[i][j].reshte) {
+	int sw = 0;
+	for (int v = -1; v < 2; v++)
+	{
+		for (int h = -1; h < 2; h++)
+		{
+			if (i*h != 0) continue;
+			if (i + h<0 || j + v<0 || i + h > LinesNum || j + v > LinesNum)continue;
+			if (marble[i + h][j + v].color == marble[i][j].color) sw++;
+		}
+	}
+	if (marble[i][j].condition==false && (marble[i][j].reshte * (sw-1) )==0) {
 		marble[i][j].condition = true;
 		marble[i][j].color = shomarande % 2 + 1;
 		Capturing(marble, LinesNum);
@@ -292,9 +308,25 @@ int suicide(mohre marble[20][20], int LinesNum, int tgt,int &shomarande) {
 	}
 	return 0;
 }
+void RefreshScreen(mohre marble[20][20],const int LinesNum,int x,int y) {
+	al_clear_to_color(al_map_rgb(125, 61, 0));
+	table(marble, LinesNum, x, y);
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
+		{
+			if (marble[i][j].condition) {
+				int tgt = i * 100 + j;
+				drawmohre(marble, tgt, y, LinesNum, marble[i][j].shomarande);
+			}
+		}
+	}
+	al_flip_display;
+}
 int main() {
 	mohre marble[20][20];
 	float a, b;
+	int tgt;
 	int shomarande = 0;
 	int LinesNum = 9;
 	int  x, y;
@@ -303,13 +335,27 @@ int main() {
 	table(marble,LinesNum, x, y);
 	while (true) {
 		mouseCourser(a, b);
-		if (taghatoeYaab(marble,a, b, LinesNum) + 1) {
+		tgt = taghatoeYaab(marble, a, b, LinesNum);
+		if (tgt + 1) {
 			shomarande++;
-			drawmohre(marble,taghatoeYaab(marble,a, b, LinesNum), y, LinesNum, shomarande);
-			Capturing(marble, LinesNum);
-
-			suicide(marble, LinesNum, taghatoeYaab(marble, a, b, LinesNum), shomarande);
+			drawmohre(marble,tgt, y, LinesNum, shomarande);
+			int sw1 = Capturing(marble, LinesNum);
 			printmarble(marble, LinesNum);
+			if (sw1) {
+				suicide(marble, LinesNum, tgt, shomarande);
+				RefreshScreen(marble, LinesNum, x, y);
+
+			}
+
+
+
+
+
+
+
+
+
+
 
 		}
 	}
