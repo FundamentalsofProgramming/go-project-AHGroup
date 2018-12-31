@@ -97,6 +97,9 @@
     <Image Include="C:\Users\berooz\Desktop\new not commit\13.png">
       <Filter>Source Files</Filter>
     </Image>
+    <Image Include="C:\Users\berooz\Desktop\12.1.png">
+      <Filter>Source Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="cambriai.ttf">

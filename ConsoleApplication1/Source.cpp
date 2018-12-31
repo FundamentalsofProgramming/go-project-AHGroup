@@ -11,6 +11,7 @@ struct mohre
 int LinesNum = 9;
 int shomarande = 0;
 int ww = 0;
+int qq = 0;
 enum lolo
 {
 	mainmenup, singleplayerp, twoplayerp, gamep, optionp
@@ -89,8 +90,6 @@ void start(int x, int y) {
 		al_flip_display();
 		al_rest(0.04);
 	}
-
-	/*
 	init_text();
 	ALLEGRO_FONT *font;
 	print_text(font, "Go Game", y / 9, x / 2, 5 * y / 12, 255, 255, 255, "cambriai.ttf");
@@ -103,17 +102,15 @@ void start(int x, int y) {
 	print_text(font, "Loading", y / 25, x / 12, y - y / 10, 255, 255, 255, "cambriai.ttf");
 	al_flip_display();
 	al_rest(1);
-	for (int i = x / 7; i < x - y / 5; i ++)
+	for (int i = x / 7; i < x - y / 5; i+=10)
 	{
 	al_draw_line(x / 7, y - y / 13, i, y - y / 13, al_map_rgb(255, 255, 255), 25);
 	al_flip_display();
 	}
-
-	al_rest(3);
+	al_rest(1);
 	al_clear_to_color(al_map_rgb(125, 61, 0));
 	al_flip_display();
-	al_rest(1);
-	*/
+	
 }
 void table(mohre marble[20][20], const int LinesNum, int x, int y) {
 	int k = -(9 * y / 11) / (LinesNum - 1);
@@ -169,12 +166,10 @@ void mainmenu(float x, float y) {
 			updatedokme("8.png", "8.1.png", a, b, 3 * x / 8, 5 * y / 12, x / 4, y / 8, 1, Q);
 			updatedokme("9.png", "9.1.png", a, b, 3 * x / 8, 17 * y / 24, x / 4, y / 8, 2, w);
 		}
-
 	}
-	if (nn[0] == true)part = singleplayerp, nn[8] = false;
-	if (nn[1] == true)part = twoplayerp, nn[8] = false;
-	if (nn[2] == true)part = optionp;
-
+	if (nn[0])part = singleplayerp, nn[8] = false;
+	if (nn[1])part = twoplayerp, nn[8] = false;
+	if (nn[2])part = optionp;
 }
 void game(float &a, float &b, float x, float y) {
 	init_mouse();
@@ -192,17 +187,11 @@ void game(float &a, float &b, float x, float y) {
 			b = ev.mouse.y;
 			updatedokme("5.png", "5.1.png", a, b, y / 5, y / 5, y / 4, y / 10, 8, q);
 			updatedokme("20.1.png", "20.png", a, b, y / 5, y / 5 + y / 5, y / 4, y / 10, 11, Q);
-
 		}
-
-
 	}
-	if (nn[8] == true)part = mainmenup;
-
-
-
+	if (nn[8])part = mainmenup;
 }
-void changesize(float x, float y) {
+void twoplayer(float x, float y) {
 	float a, b;
 	init_mouse();
 	ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
@@ -220,20 +209,22 @@ void changesize(float x, float y) {
 			if (ww == 0)	updatedokme("14.png", "14.1.png", a, b, x / 2 - y / 4, y / 4, y / 8, y / 8, 3, q);
 			if (ww == 0)updatedokme("13.png", "13.1.png", a, b, x / 2 - y / 16, y / 4, y / 8, y / 8, 4, Q);
 			if (ww == 0)updatedokme("15.png", "15.1.png", a, b, x / 2 + y / 8, y / 4, y / 8, y / 8, 5, w);
-			updatedokme("4.png", "4.1.png", a, b, x / 2 - y / 4, y / 2, y / 4, y / 10, 6, W);
-			updatedokme("6.png", "6.1.png", a, b, x / 2 + y / 16, y / 2, y / 4, y / 10, 7, e);
+			if (qq==0)updatedokme("4.png", "4.1.png", a, b, x / 2 - y / 4, y / 2, y / 4, y / 10, 6, W);
+			if (qq == 0)updatedokme("6.png", "6.1.png", a, b, x / 2 + y / 16, y / 2, y / 4, y / 10, 7, e);
 			updatedokme("5.png", "5.1.png", a, b, x / 2 + y / 16, 3 * y / 4, y / 4, y / 10, 8, E);
 			updatedokme("7.png", "7.1.png", a, b, x / 2 - 5 * y / 16, 3 * y / 4, y / 4, y / 10, 9, r);
 		}
 	}
-	if (nn[3] == true)LinesNum = 9, ww = 1, create_bitmap("14.1.png", x / 2 - y / 4, y / 4, y / 8, y / 8);
-	if (nn[4] == true)LinesNum = 13, ww = 1, create_bitmap("13.1.png", x / 2 - y / 16, y / 4, y / 8, y / 8);
-	if (nn[5] == true)LinesNum = 19, ww = 1, create_bitmap("15.1.png", x / 2 + y / 8, y / 4, y / 8, y / 8);
-	if (nn[6] == true)shomarande = 1;
-	if (nn[7] == true)shomarande = 0;
-	if (nn[8] == true)part = mainmenup, nn[8] = false;
-	if (nn[9] == true)al_clear_to_color(al_map_rgb(124, 60, 0)), part = gamep, nn[9] = false;
-	else changesize(x, y);
+	if (nn[3])LinesNum = 9, ww = 1, create_bitmap("14.1.png", x / 2 - y / 4, y / 4, y / 8, y / 8);
+	if (nn[4])LinesNum = 13, ww = 1, create_bitmap("13.1.png", x / 2 - y / 16, y / 4, y / 8, y / 8);
+	if (nn[5])LinesNum = 19, ww = 1, create_bitmap("15.1.png", x / 2 + y / 8, y / 4, y / 8, y / 8);
+	if (nn[6])shomarande = 1,qq=1;
+	if (nn[7] )shomarande = 0,qq=1;
+	if (nn[8] || nn[9]) {
+		if (nn[8] )part = mainmenup, qq = 0, ww = 0, nn[8] = false, nn[3] = false, nn[4] = false, nn[5] = false, nn[6] = false, nn[7] = false;
+		if (nn[9]) part = gamep, qq = 0, ww = 0, nn[9] = false, nn[3] = false, nn[4] = false, nn[5] = false, nn[6] = false, nn[7] = false;
+	}
+	else twoplayer(x, y);
 
 }
 int taghatoeYaab(mohre marble[20][20], float a, float b, const int LinesNum) {
@@ -445,7 +436,7 @@ int main() {
 			create_bitmap("5.png", x / 2 + y / 16, 3 * y / 4, y / 4, y / 10);//dokme
 			create_bitmap("7.png", x / 2 - 5 * y / 16, 3 * y / 4, y / 4, y / 10);//dokme
 			al_flip_display();
-			changesize(x, y);
+			twoplayer(x, y);
 			break;
 		case singleplayerp:
 			al_clear_to_color(al_map_rgb(100, 100, 0));
@@ -461,9 +452,10 @@ int main() {
 			create_bitmap("4.png", x / 2 - y / 4, y / 2, y / 4, y / 10);//dokme
 			create_bitmap("6.png", x / 2 + y / 16, y / 2, y / 4, y / 10);//dokme
 			al_flip_display();
-			changesize(x, y);
+			twoplayer(x, y);
 			break;
 		case gamep:
+			al_clear_to_color(al_map_rgb(124, 60, 0));
 			create_bitmap("5.png", y / 5, y / 5, y / 4, y / 10);//dokme
 			create_bitmap("20.1.png", y / 5, y / 5 + y / 5, y / 4, y / 10);//dokme
 			al_flip_display();
@@ -496,8 +488,4 @@ int main() {
 			break;
 		}
 	}
-
-
 }
-
-
