@@ -1,5 +1,5 @@
 ﻿  Source.cpp
 g:\projects\go projectt\go projectt\includess.h(13): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-g:\projects\go projectt\go projectt\source.cpp(404): warning C4551: function call missing argument list
+g:\projects\go projectt\go projectt\source.cpp(407): warning C4551: function call missing argument list
   go projectt.vcxproj -> G:\projects\go projectt\Debug\go projectt.exe
   go projectt.vcxproj -> G:\projects\go projectt\Debug\go projectt.pdb (Full PDB)

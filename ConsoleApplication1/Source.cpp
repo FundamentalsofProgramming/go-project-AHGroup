@@ -11,6 +11,7 @@ struct mohre
 int LinesNum = 9;
 int shomarande = 0;
 int ww = 0;
+int yy = 0,tt =0, jj =0, ii = 0;
 int qq = 0;
 enum lolo
 {
@@ -83,13 +84,14 @@ void start(int x, int y) {
 	init_display(x, y);
 	al_rest(2);
 	int j = 0;
-	for (int i = 0; i <125; i++)
+	for (int i = 0; i < 125; i++)
 	{
 		if (i < 61)j = i;
 		al_clear_to_color(al_map_rgb(i, j, 0));
 		al_flip_display();
 		al_rest(0.04);
 	}
+	/*
 	init_text();
 	ALLEGRO_FONT *font;
 	print_text(font, "Go Game", y / 9, x / 2, 5 * y / 12, 255, 255, 255, "cambriai.ttf");
@@ -110,7 +112,8 @@ void start(int x, int y) {
 	al_rest(1);
 	al_clear_to_color(al_map_rgb(125, 61, 0));
 	al_flip_display();
-	
+
+*/
 }
 void table(mohre marble[20][20], const int LinesNum, int x, int y) {
 	int k = -(9 * y / 11) / (LinesNum - 1);
@@ -206,23 +209,23 @@ void twoplayer(float x, float y) {
 			ev.type == ALLEGRO_EVENT_MOUSE_ENTER_DISPLAY) {
 			a = ev.mouse.x;
 			b = ev.mouse.y;
-			if (ww == 0)	updatedokme("14.png", "14.1.png", a, b, x / 2 - y / 4, y / 4, y / 8, y / 8, 3, q);
+			if (tt == 0)updatedokme("14.png", "14.1.png", a, b, x / 2 - y / 4, y / 4, y / 8, y / 8, 3, q);
 			if (ww == 0)updatedokme("13.png", "13.1.png", a, b, x / 2 - y / 16, y / 4, y / 8, y / 8, 4, Q);
-			if (ww == 0)updatedokme("15.png", "15.1.png", a, b, x / 2 + y / 8, y / 4, y / 8, y / 8, 5, w);
+			if (yy == 0)updatedokme("15.png", "15.1.png", a, b, x / 2 + y / 8, y / 4, y / 8, y / 8, 5, w);
 			if (qq==0)updatedokme("4.png", "4.1.png", a, b, x / 2 - y / 4, y / 2, y / 4, y / 10, 6, W);
-			if (qq == 0)updatedokme("6.png", "6.1.png", a, b, x / 2 + y / 16, y / 2, y / 4, y / 10, 7, e);
+			if (ii == 0)updatedokme("6.png", "6.1.png", a, b, x / 2 + y / 16, y / 2, y / 4, y / 10, 7, e);
 			updatedokme("5.png", "5.1.png", a, b, x / 2 + y / 16, 3 * y / 4, y / 4, y / 10, 8, E);
 			updatedokme("7.png", "7.1.png", a, b, x / 2 - 5 * y / 16, 3 * y / 4, y / 4, y / 10, 9, r);
 		}
 	}
-	if (nn[3])LinesNum = 9, ww = 1, create_bitmap("14.1.png", x / 2 - y / 4, y / 4, y / 8, y / 8);
-	if (nn[4])LinesNum = 13, ww = 1, create_bitmap("13.1.png", x / 2 - y / 16, y / 4, y / 8, y / 8);
-	if (nn[5])LinesNum = 19, ww = 1, create_bitmap("15.1.png", x / 2 + y / 8, y / 4, y / 8, y / 8);
-	if (nn[6])shomarande = 1,qq=1;
-	if (nn[7] )shomarande = 0,qq=1;
+	if (nn[3])nn[3]=false,LinesNum = 9,tt=1,ww=0,yy=0, create_bitmap("13.png", x / 2 - y / 16, y / 4, y / 8, y / 8), create_bitmap("15.png", x / 2 + y / 8, y / 4, y / 8, y / 8);
+	if (nn[4])nn[4] = false, LinesNum = 13, ww = 1, tt = 0, yy = 0, create_bitmap("15.png", x / 2 + y / 8, y / 4, y / 8, y / 8), create_bitmap("14.png", x / 2 - y / 4, y / 4, y / 8, y / 8);
+	if (nn[5])nn[5] = false,LinesNum = 19,yy=1,tt=0,ww=0, create_bitmap("13.png", x / 2 - y / 16, y / 4, y / 8, y / 8), create_bitmap("14.png", x / 2 - y / 4, y / 4, y / 8, y / 8);
+	if (nn[6])nn[6] = false,shomarande = 1,qq=1,ii=0, create_bitmap("6.png", x / 2 + y / 16, y / 2, y / 4, y / 10);//dokme
+	if (nn[7] )nn[7] = false,shomarande = 0,qq=0,ii=1, create_bitmap("4.png", x / 2 - y / 4, y / 2, y / 4, y / 10);//dokme
 	if (nn[8] || nn[9]) {
-		if (nn[8] )part = mainmenup, qq = 0, ww = 0, nn[8] = false, nn[3] = false, nn[4] = false, nn[5] = false, nn[6] = false, nn[7] = false;
-		if (nn[9]) part = gamep, qq = 0, ww = 0, nn[9] = false, nn[3] = false, nn[4] = false, nn[5] = false, nn[6] = false, nn[7] = false;
+		if (nn[8])part = mainmenup;
+		if (nn[9]) part = gamep;
 	}
 	else twoplayer(x, y);
 
