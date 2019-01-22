@@ -21,6 +21,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="C:\Users\berooz\Desktop\a.ogg">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includess.h">
@@ -99,6 +102,39 @@
     </Image>
     <Image Include="C:\Users\berooz\Desktop\12.1.png">
       <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\save.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\save.1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\load.1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\load.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\about.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\about1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\asd.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\ah.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\ferdowsi.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\ferdowsi 1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\f1.png">
+      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

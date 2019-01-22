@@ -108,12 +108,12 @@ void start(int x, int y) {
 	{
 	al_draw_line(x / 7, y - y / 13, i, y - y / 13, al_map_rgb(255, 255, 255), 25);
 	al_flip_display();
-	}
+	}*/
 	al_rest(1);
 	al_clear_to_color(al_map_rgb(125, 61, 0));
 	al_flip_display();
 
-*/
+
 }
 void table(mohre marble[20][20], const int LinesNum, int x, int y) {
 	int k = -(9 * y / 11) / (LinesNum - 1);
@@ -167,12 +167,33 @@ void mainmenu(float x, float y) {
 			b = ev.mouse.y;
 			updatedokme("10.png", "10.1.png", a, b, 3 * x / 8, y / 8, x / 4, y / 8, 0, q);
 			updatedokme("8.png", "8.1.png", a, b, 3 * x / 8, 5 * y / 12, x / 4, y / 8, 1, Q);
-			updatedokme("9.png", "9.1.png", a, b, 3 * x / 8, 17 * y / 24, x / 4, y / 8, 2, w);
+			updatedokme("about.png", "about1.png", a, b, 3 * x / 8, 17 * y / 24, x / 4, y / 8, 2, w);
 		}
 	}
-	if (nn[0])part = singleplayerp, nn[8] = false;
-	if (nn[1])part = twoplayerp, nn[8] = false;
-	if (nn[2])part = optionp;
+	if (nn[0])part = singleplayerp,nn[0]= nn[8] = false;
+	if (nn[1])part = twoplayerp,nn[1]= nn[8] = false;
+	if (nn[2])part = optionp, nn[2]=nn[8] = false;
+}
+void aboutus(float x, float y) {
+	float a, b;
+	int i = 1;
+	init_mouse();
+	ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
+	al_register_event_source(event_queue, al_get_display_event_source(al_get_current_display()));
+	al_register_event_source(event_queue, al_get_mouse_event_source());
+	ALLEGRO_EVENT ev;
+	al_wait_for_event(event_queue, &ev);
+	while (ev.type != ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
+		al_wait_for_event(event_queue, &ev);
+		if (ev.type == ALLEGRO_EVENT_MOUSE_AXES ||
+			ev.type == ALLEGRO_EVENT_MOUSE_ENTER_DISPLAY) {
+			a = ev.mouse.x;
+			b = ev.mouse.y;
+			updatedokme("5.png", "5.1.png", a, b, x / 2 + y / 4, 3 * y / 4, y / 4, y / 10, 9, i);
+		}
+	}
+	if (nn[9])part = mainmenup, nn[9] = false,nn[8]=false;
+	
 }
 void game(float &a, float &b, float x, float y) {
 	init_mouse();
@@ -181,15 +202,16 @@ void game(float &a, float &b, float x, float y) {
 	al_register_event_source(event_queue, al_get_mouse_event_source());
 	ALLEGRO_EVENT ev;
 	al_wait_for_event(event_queue, &ev);
-	int q = 1, Q = 1, w = 1;
+	int q = 1, Q = 1, w = 1,r=1;
 	while (ev.type != ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
 		al_wait_for_event(event_queue, &ev);
 		if (ev.type == ALLEGRO_EVENT_MOUSE_AXES ||
 			ev.type == ALLEGRO_EVENT_MOUSE_ENTER_DISPLAY) {
 			a = ev.mouse.x;
 			b = ev.mouse.y;
-			updatedokme("5.png", "5.1.png", a, b, y / 5, y / 5, y / 4, y / 10, 8, q);
-			updatedokme("20.1.png", "20.png", a, b, y / 5, y / 5 + y / 5, y / 4, y / 10, 11, Q);
+			updatedokme("5.png", "5.1.png", a, b, y / 7, 3 * y / 4, y / 4, y / 10, 8, q);
+			updatedokme("20.1.png", "20.png", a, b, y / 7, 3 * y / 20, y / 4, y / 10, 11, Q);
+			updatedokme("save.png", "save.1.png", a, b, y / 7, 9 * y / 20, y / 4, y / 10, 12, r);
 		}
 	}
 	if (nn[8])part = mainmenup;
@@ -202,7 +224,7 @@ void twoplayer(float x, float y) {
 	al_register_event_source(event_queue, al_get_mouse_event_source());
 	ALLEGRO_EVENT ev;
 	al_wait_for_event(event_queue, &ev);
-	int q = 1, Q = 1, w = 1, W = 1, e = 1, E = 1, r = 1;
+	int q = 1, Q = 1, w = 1, W = 1, e = 1, E = 1, r = 1, f = 1;
 	while (ev.type != ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
 		al_wait_for_event(event_queue, &ev);
 		if (ev.type == ALLEGRO_EVENT_MOUSE_AXES ||
@@ -214,8 +236,9 @@ void twoplayer(float x, float y) {
 			if (yy == 0)updatedokme("15.png", "15.1.png", a, b, x / 2 + y / 8, y / 4, y / 8, y / 8, 5, w);
 			if (qq==0)updatedokme("4.png", "4.1.png", a, b, x / 2 - y / 4, y / 2, y / 4, y / 10, 6, W);
 			if (ii == 0)updatedokme("6.png", "6.1.png", a, b, x / 2 + y / 16, y / 2, y / 4, y / 10, 7, e);
-			updatedokme("5.png", "5.1.png", a, b, x / 2 + y / 16, 3 * y / 4, y / 4, y / 10, 8, E);
-			updatedokme("7.png", "7.1.png", a, b, x / 2 - 5 * y / 16, 3 * y / 4, y / 4, y / 10, 9, r);
+			updatedokme("5.png", "5.1.png", a, b, x / 2 -y/2, 3 * y / 4, y / 4, y / 10, 8, E);
+			updatedokme("7.png", "7.1.png", a, b, x / 2 + y / 4, 3 * y / 4, y / 4, y / 10, 9, r);
+			updatedokme("load.png", "load.1.png", a, b, x / 2 - y / 8, 3 * y / 4, y / 4, y / 10, 10, f);
 		}
 	}
 	if (nn[3])nn[3]=false,LinesNum = 9,tt=1,ww=0,yy=0, create_bitmap("13.png", x / 2 - y / 16, y / 4, y / 8, y / 8), create_bitmap("15.png", x / 2 + y / 8, y / 4, y / 8, y / 8);
@@ -224,6 +247,7 @@ void twoplayer(float x, float y) {
 	if (nn[6])nn[6] = false,shomarande = 1,qq=1,ii=0, create_bitmap("6.png", x / 2 + y / 16, y / 2, y / 4, y / 10);//dokme
 	if (nn[7] )nn[7] = false,shomarande = 0,qq=0,ii=1, create_bitmap("4.png", x / 2 - y / 4, y / 2, y / 4, y / 10);//dokme
 	if (nn[8] || nn[9]) {
+		tt = ww = yy = qq = ii = 0;
 		if (nn[8])part = mainmenup;
 		if (nn[9]) part = gamep;
 	}
@@ -408,11 +432,24 @@ void RefreshScreen(mohre marble[20][20], const int LinesNum, int x, int y) {
 }
 int main() {
 	mohre marble[20][20];
+	ALLEGRO_SAMPLE *shot = NULL;
+	ALLEGRO_SAMPLE *boom = NULL;
+	ALLEGRO_SAMPLE *song = NULL;
+	ALLEGRO_SAMPLE_INSTANCE *songinstance = NULL;
+	al_install_audio();
+	al_init_acodec_addon();
+	al_reserve_samples(10);
+	shot = al_load_sample("a.ogg");
+//	songinstance = al_create_sample_instance(song);
+	//al_set_sample_instance_playmode(songinstance, ALLEGRO_PLAYMODE_LOOP);
+	//al_attach_sample_instance_to_mixer(songinstance, al_get_default_mixer());
 	float a, b;
 	int  x, y, tgt;
 	GetDisplayResolution(x, y);
+	al_play_sample(shot, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 	start(x, y);
 	part = mainmenup;
+	//al_play_sample_instance(songinstance);
 	while (1)
 	{
 		ALLEGRO_FONT *fona;
@@ -422,7 +459,7 @@ int main() {
 			al_clear_to_color(al_map_rgb(124, 60, 0));
 			create_bitmap("10.png", 3 * x / 8, y / 8, x / 4, y / 8);//dokme
 			create_bitmap("8.png", 3 * x / 8, 5 * y / 12, x / 4, y / 8);//dokme
-			create_bitmap("9.png", 3 * x / 8, 17 * y / 24, x / 4, y / 8);//dokme
+			create_bitmap("about.png", 3 * x / 8, 17 * y / 24, x / 4, y / 8);//dokme
 			al_flip_display();
 			mainmenu(x, y);
 			break;
@@ -436,13 +473,13 @@ int main() {
 			create_bitmap("15.png", x / 2 + y / 8, y / 4, y / 8, y / 8);//dokme
 			create_bitmap("4.png", x / 2 - y / 4, y / 2, y / 4, y / 10);//dokme
 			create_bitmap("6.png", x / 2 + y / 16, y / 2, y / 4, y / 10);//dokme
-			create_bitmap("5.png", x / 2 + y / 16, 3 * y / 4, y / 4, y / 10);//dokme
-			create_bitmap("7.png", x / 2 - 5 * y / 16, 3 * y / 4, y / 4, y / 10);//dokme
+			create_bitmap("5.png", x / 2 -y/2, 3 * y / 4, y / 4, y / 10);//dokme
+			create_bitmap("7.png", x / 2 +y/4, 3 * y / 4, y / 4, y / 10);//dokme
+			create_bitmap("load.png", x / 2 -  y / 8, 3 * y / 4, y / 4, y / 10);//dokme
 			al_flip_display();
 			twoplayer(x, y);
 			break;
 		case singleplayerp:
-			al_clear_to_color(al_map_rgb(100, 100, 0));
 			init_text();
 			al_clear_to_color(al_map_rgb(100, 100, 0));
 			print_text(fona, "Board Size:", 180, x / 4, y / 4, 255, 185, 255, "BuxtonSketch.ttf");
@@ -458,9 +495,11 @@ int main() {
 			twoplayer(x, y);
 			break;
 		case gamep:
+			//al_stop_sample(song);
 			al_clear_to_color(al_map_rgb(124, 60, 0));
-			create_bitmap("5.png", y / 5, y / 5, y / 4, y / 10);//dokme
-			create_bitmap("20.1.png", y / 5, y / 5 + y / 5, y / 4, y / 10);//dokme
+			create_bitmap("5.png", y / 7, 3*y/4, y / 4, y / 10);//dokme
+			create_bitmap("20.1.png", y / 7, 3*y/20 , y / 4, y / 10);//dokme
+			create_bitmap("save.png", y / 7, 9*y/20, y / 4, y / 10);//dokme
 			al_flip_display();
 			table(marble, LinesNum, x, y);
 			while (true) {
@@ -474,18 +513,32 @@ int main() {
 					if (sw1) {
 						suicide(marble, LinesNum, tgt, shomarande);
 						RefreshScreen(marble, LinesNum, x, y);
-						create_bitmap("5.png", y / 5, y / 5, y / 4, y / 10);//dokme
-						create_bitmap("20.1.png", y / 5, y / 5 + y / 5, y / 4, y / 10);//dokme
+						create_bitmap("5.png", y / 7, 3 * y / 4, y / 4, y / 10);//dokme
+						create_bitmap("20.1.png", y / 7, 3 * y / 20, y / 4, y / 10);//dokme
+						create_bitmap("save.png", y / 7, 9 * y / 20, y / 4, y / 10);//dokme
 					}
 				}
 				if (nn[8]) {
-					nn[8] = false, nn[9] = false;
+					nn[8] =  nn[9] = false;
 					break;
 				}
 				if (nn[11])shomarande++;
 			}
 			break;
 		case optionp:
+			init_text();
+			al_clear_to_color(al_map_rgb(90, 100, 20));
+			create_bitmap("5.png", x / 2 + y / 4, 3 * y / 4, y / 4, y / 10);
+			print_text(fona, "This game has been created by AH Group ", 50, x / 2, 5 * y / 12, 255, 255, 255, "cambriai.ttf");
+			print_text(fona, "Amirhossein Torkanloo,Hossein Farahmand ", 50, x / 2, 5 * y / 12+100, 255, 255, 255, "cambriai.ttf");
+			print_text(fona, "Thanks to Saeid Abrishami ,Hosein Mohebbi and MAZ", 50, x / 2, 5 * y / 12+200, 255, 255, 255, "cambriai.ttf");
+			print_text(fona, "Ferdowsi University Of Mashhad", 50, x / 2, 5 * y / 12 + 400, 200, 255, 255, "cambriai.ttf");
+			print_text(fona, "2018-2019", 50, x / 2, 5 * y / 12 + 500, 200, 255, 255, "cambriai.ttf");
+			create_bitmap("f1.png", 3*y/2, y/7, y / 4, y / 4);
+			create_bitmap("asd.png", y / 7, 3 * y / 5, y /2, y / 4);
+			create_bitmap("ah.png", y/7, y/7, y /3, y / 3);
+			al_flip_display();
+			aboutus(x, y);
 			break;
 		default:
 			break;

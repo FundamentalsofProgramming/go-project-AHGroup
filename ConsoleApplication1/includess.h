@@ -10,4 +10,6 @@
 #include <allegro5/allegro_native_dialog.h> 
 #include <allegro5/allegro_acodec.h>
 #include<math.h>
-#include <conio.h>#pragma once
+#include <conio.h>
+#include<allegro5/allegro_audio.h>
+#include<allegro5/allegro_acodec.h>

@@ -157,6 +157,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="C:\Users\berooz\Desktop\a.ogg" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +178,15 @@
     <Image Include="C:\Users\berooz\Desktop\8.png" />
     <Image Include="C:\Users\berooz\Desktop\9.1.png" />
     <Image Include="C:\Users\berooz\Desktop\9.png" />
+    <Image Include="C:\Users\berooz\Desktop\about.png" />
+    <Image Include="C:\Users\berooz\Desktop\about1.png" />
+    <Image Include="C:\Users\berooz\Desktop\ah.png" />
+    <Image Include="C:\Users\berooz\Desktop\asd.png" />
+    <Image Include="C:\Users\berooz\Desktop\f1.png" />
+    <Image Include="C:\Users\berooz\Desktop\ferdowsi 1.png" />
+    <Image Include="C:\Users\berooz\Desktop\ferdowsi.png" />
+    <Image Include="C:\Users\berooz\Desktop\load.1.png" />
+    <Image Include="C:\Users\berooz\Desktop\load.png" />
     <Image Include="C:\Users\berooz\Desktop\new not commit\13.1.png" />
     <Image Include="C:\Users\berooz\Desktop\new not commit\13.png" />
     <Image Include="C:\Users\berooz\Desktop\new not commit\4.1.png" />
@@ -187,6 +197,8 @@
     <Image Include="C:\Users\berooz\Desktop\new not commit\6.png" />
     <Image Include="C:\Users\berooz\Desktop\new not commit\7.1.png" />
     <Image Include="C:\Users\berooz\Desktop\new not commit\7.png" />
+    <Image Include="C:\Users\berooz\Desktop\save.1.png" />
+    <Image Include="C:\Users\berooz\Desktop\save.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="BuxtonSketch.ttf" />
