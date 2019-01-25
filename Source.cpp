@@ -9,7 +9,6 @@
 #include <allegro5/allegro_native_dialog.h> 
 #include <allegro5/allegro_acodec.h>
 #include<math.h>
-#include <conio.h>
 struct mohre
 {
 	int x = 0 ;
@@ -18,6 +17,7 @@ struct mohre
 	bool condition = false;
 	int shomarande = 0;
 	int reshte = 0;
+	int halghe = 0;
 };
 void init_display(int x, int y) {
 	ALLEGRO_DISPLAY *display = al_create_display(x, y);
@@ -167,7 +167,22 @@ void reshte(mohre marble[20][20], int i,int j, int color, const int LinesNum,int
 		}
 	}
 }
-int Capturing(mohre marble[20][20], int LinesNum) {
+void reshte2(mohre marble[20][20], int i, int j, int color, const int LinesNum, int shomarande) {
+	for (int h = -1; h < 2; h++)
+	{
+		for (int v = -1; v < 2; v++)
+		{
+			//if (h*v != 0) continue;
+			if (!h && !v) continue;
+			if (i + h < 0 || j + v < 0 || i + h >= LinesNum || j + v >= LinesNum)continue;
+			if (marble[i + h][j + v].condition && marble[i + h][j + v].color == color && marble[i + h][j + v].halghe != shomarande) {
+				marble[i + h][j + v].halghe = shomarande;
+				reshte2(marble, i + h, j + v, color, LinesNum, shomarande);
+			}
+		}
+	}
+}
+int Capturing(mohre marble[20][20], int LinesNum,int &sefid,int &siaah) {
 	int sw;
 	int sw1 = 0;
 	bool A[20][20] = { false };
@@ -200,6 +215,8 @@ int Capturing(mohre marble[20][20], int LinesNum) {
 			int reshte = marble[i][j].reshte;
 			if (A[i][j]) {
 				if (!marble[i][j].reshte) {
+					if (marble[i][j].color == 2) siaah++;
+					else sefid++;
 					marble[i][j].condition = false;
 					sw1++;
 				}
@@ -223,6 +240,8 @@ int Capturing(mohre marble[20][20], int LinesNum) {
 							for (int l = 0; l < LinesNum; l++)
 							{
 								if (reshte == marble[f][l].reshte) {
+									if (marble[i][j].color == 2) siaah++;
+									else sefid++;
 									marble[f][l].condition = false;
 									printf("\n %d %d \n", f, l);
 									//marble[f][l].color = 0;
@@ -245,7 +264,7 @@ void printmarble(mohre marble[20][20], int LinesNum) {
 	{
 		for (int j = 0; j < LinesNum; j++)
 		{
-			printf("%d ", marble[j][i].condition);
+			printf("%d ", marble[j][i].halghe);
 		}
 		printf("\n");
 	}
@@ -265,7 +284,7 @@ void drawmohre(mohre marble[20][20],int tgt, int y, int LinesNum, int shomarande
 	marble[i][j].shomarande = shomarande;
 	reshte(marble, i, j, marble[i][j].color, LinesNum,shomarande);
 }
-int Suicide(mohre marble[20][20], int LinesNum, int tgt,int &shomarande) {
+int Suicide(mohre marble[20][20], int LinesNum, int tgt,int &shomarande,int &sefid,int &siaah) {
 	int j = tgt % 100;
 	int i = (tgt - j) / 100;
 	int sw = 0;
@@ -281,9 +300,16 @@ int Suicide(mohre marble[20][20], int LinesNum, int tgt,int &shomarande) {
 	if (!marble[i][j].condition && (marble[i][j].reshte*(sw-1) ==0)){
 		marble[i][j].condition = true;
 		marble[i][j].color = shomarande % 2 + 1;
-		Capturing(marble, LinesNum);
-		if (marble[i][j].condition) return 2;
+		Capturing(marble, LinesNum,sefid,siaah);
+		if (marble[i][j].condition) {
+			if (marble[i][j].color == 2) siaah--;
+			else sefid--;
+			return 2;
+		}
 		else {
+			if (marble[i][j].color == 2) siaah-=2;
+			else sefid-=2;
+
 			shomarande--;
 			return 1;
 		}
@@ -331,12 +357,50 @@ void BoolEye(bool eye[20][20], mohre marble[20][20], const int LinesNum) {
 					}
 				}
 				if (sw == 4) {
+					/*for (int s = -1; s < 2; s++)
+					{
+						for (int e = -1; e < 2; e++)
+						{
+							if (i + s < 0 || j + e < 0 || i + s >= LinesNum || j + e >= LinesNum)continue;
+							if (!marble[i + s][j + e].condition) continue;
+							for (int ii = 0; ii < LinesNum; ii++)
+							{
+								for (int jj = 0; jj < LinesNum; jj++)
+								{
+									if (marble[ii][jj].reshte == marble[i + s][j + e].reshte) marble[ii][jj].reshte = 0;
+								}
+							}
+						}
+					}*/
 					eye[i][j] = true;
 					//printf("%d %d\n", i, j);
 				}
 			}
 		}
 	}
+}
+int SearchAzTah(int A[20], int B[20], int C[20], int D[20]) {
+	for (int i = 0; i < 20; i++)
+	{
+		if (!A[i]) continue;
+		for (int j = 0; j < 20; j++)
+		{
+			if (B[j] != A[i]) continue;
+			for (int h = 0; h < 20; h++)
+			{
+				if (C[h] != A[i]) continue;
+				for (int k = 0; k < 20; k++)
+				{
+					if (D[k] != A[i]) continue;
+					printf("\ndddddddd\n");
+					return A[i];
+				}
+			}
+		}
+	}
+
+
+	return 0;
 }
 int BestMove(mohre marble[20][20], const int LinesNum, int shomarande,int sw1) {// age suicide inja nayad oon akhara ke fght ye ja mitoone bezare hamash hamoon ja mizare va oonjam az qza suicide hast 
 	int tgt = 0;
@@ -403,11 +467,11 @@ int nobatdehi(mohre marble[20][20], int MultiPlayer, const int LinesNum,int &sho
 	shomarande++;
 	return tgt;
 }
-int HalgheRefrence(mohre marble[20][20], int LinesNum, int primei, int primej, int A[20][20], int &sw, int i, int j,int loop[20][20]) {
+/*int HalgheRefrence(mohre marble[20][20], int LinesNum, int primei, int primej, int A[20][20], int &sw, int i, int j) {
 	int divar = 0;
 	if ((sw - A[i][j])> 2 && qhadr(primei - i) == 1 && qhadr(primej - j) == 1)
 	{
-		loop[primei][primej] = (100 * i + j);
+		marble[primei][primej].halghe = (100 * i + j);
 		return 2;
 	}
 	for (int h = -1; h < 2; h++)
@@ -424,8 +488,8 @@ int HalgheRefrence(mohre marble[20][20], int LinesNum, int primei, int primej, i
 			if (marble[primei + h][primej + v].color == marble[i][j].color && !A[primei + h][primej + v]) {
 				sw++; 
 				A[primei + h][primej + v] = sw;
-				if (HalgheRefrence(marble, LinesNum, primei + h, primej + v, A, sw, i, j, loop) == 2) {
-					loop[primei][primej] = (100 * i + j);
+				if (HalgheRefrence(marble, LinesNum, primei + h, primej + v, A, sw, i, j) == 2) {
+					marble[primei][primej].halghe = (100 * i + j);
 					return 2;
 				}
 			}
@@ -433,22 +497,26 @@ int HalgheRefrence(mohre marble[20][20], int LinesNum, int primei, int primej, i
 	}
 	return 0;
 }
-int HalgheRefrence1(mohre marble[20][20], int LinesNum,int primei,int primej,int i,int j,int loop[20][20],int A[20][20],int &sw) {
+int HalgheRefrence1(mohre marble[20][20], int LinesNum,int primei,int primej,int i,int j,int A[20][20],int &sw) {
 	for (int h = -1; h < 2; h++)
 	{
 		for (int v = -1; v < 2; v++)
 		{
-			if (primei + h < 0 || primej + v < 0 || primei + h >= LinesNum || primej + v >= LinesNum) {
-				if (primei + h != i && primej + v != j && marble[i + h][j + v].condition && marble[i + h][j + v].color == marble[i][j].color) {
-					loop[primei + h][primej + v] = 100 * i + j;
+			A[primei][primej] += 3;
+			if (marble[primei + h][primej + v].color != marble[i][j].color) continue;
+			if (!marble[primei + h][primej + v].condition) continue;
+			if (v == 0 && h == 0) continue;
+			if (A[primei + h][primej + v]>3) continue;
+
+			if (primei + h == 0 || primej + v == 0 || primei + h == LinesNum-1 || primej + v == LinesNum-1) {
+				if (primei + h == i && primej + v == j) continue;
+					marble[primei + h][primej + v].halghe = -(100*i+j);
+					A[primei + h][primej + v] += 3;
 					return 1;
-				}
-				else return 0;
+				//else return 0;
 			}
-			if (A[primei + h][primej + v]) continue;
-			if (HalgheRefrence1(marble, LinesNum, primei + h, primej + v, i, j, loop, A, sw)) {
-				loop[primei + h][primej + v ] = 100 * i + j;
-				A[primei + h][primej + v] += 3;
+			if (HalgheRefrence1(marble, LinesNum, primei + h, primej + v, i, j,  A, sw)) {
+				marble[primei + h][primej + v ].halghe = -(100 * i + j);
 				return 1;
 			}
 
@@ -460,73 +528,183 @@ int HalgheRefrence1(mohre marble[20][20], int LinesNum,int primei,int primej,int
 void halghe(mohre marble[20][20], int LinesNum) {
 	int primei = 0;
 	int primej = 0;
-	int loop[20][20] = { 0 };
-	//system("CLS");
 	for (int i = 0; i < LinesNum; i++)
 	{
 		for (int j = 0; j < LinesNum; j++)
 		{
-			if (!marble[i][j].condition || loop[i][j]) continue;
+			if (!marble[i][j].condition || marble[i][j].halghe) continue;
 				primei = i;
 				primej = j;
 				int A[20][20] = { 0 };
 				int sw = 1;
 				int sw1 = 0;
 				A[i][j] = sw;
-				if (HalgheRefrence(marble, LinesNum, primei, primej, A, sw, i, j, loop) == 2) {
+				if (HalgheRefrence(marble, LinesNum, primei, primej, A, sw, i, j) == 2) {
 
 				}
-				else if (i == 0 || i == LinesNum || j == 0 || j == LinesNum) {
+				else if (i == 0 || i == LinesNum-1 || j == 0 || j == LinesNum-1) {
 					A[20][20] = { 0 };
-					HalgheRefrence1(marble, LinesNum, primei, primej, i, j, loop, A, sw);
-				}
-		}
-	}
-	for (int i = 0; i < LinesNum; i++)
-	{
-		for (int j = 0; j < LinesNum; j++)
-		{
-
-			printf("%d   ", loop[j][i]);
-
-		}
-		printf("\n");
-
-	}
-}
-/*void EmtiazDehi(mohre marble[20][20],const int LinesNum,int y,int &shomarande) {
-	int sefidpoint = 0;
-	int siahpoint = 0;
-	bool eye[20][20] = { false };
-	BoolEye(eye, marble, LinesNum);
-	for (int i = 0; i < LinesNum; i++)
-	{
-		for (int j = 0; j < LinesNum; j++)
-		{
-			if (!eye[i][j]) continue;
-			int rang1 = 0;
-			int rang2 = 0;
-			for (int h = -1; h < 2; h++)
-			{
-				for (int v = -1; v < 2; v++)
-				{
-					if (v*h != 0) continue;
-					if (v == 0 && h == 0) continue;
-					if (i + h < 0 || j + v < 0 || i + h > LinesNum || j + v > LinesNum) {
-						rang1++;
-						rang2++;
-						continue;
+					
+					if (HalgheRefrence1(marble, LinesNum, primei, primej, i, j, A, sw)) {
+						marble[i][j].halghe = -(100 * i + j);
 					}
-					if (marble[i][j].color == 1) rang1++;
-					else rang2++;
 				}
-			}
-			if (rang1 == 4) drawmohre(marble, i * 100 + j, y, LinesNum, 2 * shomarande);
-			if (rang2 == 4) drawmohre(marble, i * 100 + j, y, LinesNum, 2 * shomarande + 1);
-			shomarande += 3;
 		}
 	}
 }*/
+void halghe1(mohre marble[20][20], int LinesNum,int shomarande) {
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
+		{
+			if (!marble[i][j].condition) continue;
+			if (marble[i][j].halghe) continue;
+			reshte2(marble, i, j, marble[i][j].color, LinesNum, shomarande);
+		}
+	}
+}
+int InsideOut(mohre marble[20][20],const int LinesNum, int i, int j) {
+	int sw1 = 0;
+	int swich = 0;
+	int tgt = 0;
+	int A[20] = { 0 };
+	int B[20] = { 0 };
+	int C[20] = { 0 };
+	int D[20] = { 0 };
+	for (int k = 1; LinesNum - k >= i; k++)
+	{
+		if (marble[LinesNum - k][j].halghe) {
+			A[k] = marble[LinesNum - k][j].halghe;
+		}
+	}
+	for (int k = 0; k <= i; k++)
+	{
+		if (marble[k][j].halghe) {
+			B[k] = marble[k][j].halghe;
+		}
+	}
+	for (int k = 1; LinesNum - k >= j; k++)
+	{
+		if (marble[i][LinesNum - k].halghe) {
+			C[k] = marble[i][LinesNum - k].halghe;
+		}
+	}
+	for (int k = 0; k <= j; k++)
+	{
+		if (marble[i][k].halghe) {
+			D[k] = marble[i][k].halghe;
+		}
+	}
+	int search = SearchAzTah(A, B, C, D);
+	if (search) {
+		for (int i = 0; i < LinesNum; i++)
+		{
+			for (int j = 0; j < LinesNum; j++)
+			{
+				if (marble[i][j].halghe == search) {
+					return i * 100 + j;
+				}
+			}
+		}
+	}
+		for (int o = 1; o <= LinesNum / 2; o++)
+		{
+			if (i >= LinesNum / 2) {
+				if (marble[i - o][j].halghe) sw1 = marble[i - o][j].halghe;
+			}
+			else if (marble[i + o][j].halghe) {
+				sw1 = marble[i + o][j].halghe;
+			}
+
+		}
+		for (int o = 1; o <= LinesNum / 2; o++)
+		{
+			if (j >= LinesNum / 2) {
+				if (sw1 && marble[i][j - o].halghe == sw1) {
+					return i * 100 + (j - o);
+				}
+			}
+			else if (sw1 && marble[i][j + o].halghe == sw1) {
+				return i * 100 + (j + o);
+			}
+		}
+	return 0;
+}
+void EmtiazDehi(mohre marble[20][20], int LinesNum, int &shomarande, int &sefid, int &siaah) {
+	sefid = siaah = 0;
+	int a, b;
+	mohre marble2[20][20];
+	int tgt, ii, jj;
+	halghe1(marble, LinesNum, shomarande);
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
+		{
+			marble2[i][j].color = marble[i][j].color;
+			marble2[i][j].condition = marble[i][j].condition;
+			marble2[i][j].halghe = marble[i][j].halghe;
+			marble2[i][j].reshte = marble[i][j].reshte;
+			marble2[i][j].shomarande = marble[i][j].shomarande;
+			marble2[i][j].x = marble[i][j].x;
+			marble2[i][j].y = marble[i][j].y;
+		}
+	}
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
+		{
+			if (marble2[i][j].condition) continue;
+			tgt = InsideOut(marble, LinesNum, i, j);
+			if (!tgt) continue;
+			jj = tgt % 100;
+			ii = (tgt - j) / 100;
+			marble2[i][j].condition = true;
+			marble2[i][j].color = marble2[ii][jj].color;
+		}
+	}
+	if (Capturing(marble2, LinesNum, a, b)) {
+
+		/*for (int i = 0; i < LinesNum; i++)
+		{
+			for (int j = 0; j < LinesNum; j++)
+			{
+				if (!reshte) Suicide(marble2, LinesNum, tgt, shomarande, sefid, siaah);
+			}
+		}*/
+	}
+
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
+		{
+			if (marble2[i][j].condition) continue;
+			tgt = InsideOut(marble, LinesNum, i, j);
+			if (!tgt) continue;
+			jj = tgt % 100;
+			ii = (tgt - j) / 100;
+			marble2[i][j].condition = true;
+			marble2[i][j].color = marble2[ii][jj].color;
+		}
+	}
+
+		for (int i = 0; i < LinesNum; i++)
+		{
+			for (int j = 0; j < LinesNum; j++)
+			{
+				printf("%d=%d ", marble2[j][i].color,marble2[j][i].condition);
+				//if (!marble2[i][j].condition) continue;
+				if (marble2[i][j].color == 2) sefid++;
+				else if (marble2[i][j].color == 1) siaah++;
+				else if (marble[i][j].condition) {
+					if (marble[i][j].color == 1) sefid++;
+					if (marble[i][j].color == 2) siaah++;
+				}
+			}
+			printf("\n\n");
+		}
+		
+	
+}
 int main() {
 	mohre marble[20][20];
 	int MultiPlayer = 1;
@@ -538,23 +716,31 @@ int main() {
 	int  x, y;
 	int i, j;
 	int reshte;
+	int sefid = 0;
+	int siaah = 0;
+	int primesefid = 0;
+	int primesiaah = 0;
+
 	GetDisplayResolution(x, y);
 	start(x, y);
 	table(marble,LinesNum, x, y);
 	al_flip_display();
-	while (true) {
+	while (shomarande<100) {
 		tgt = nobatdehi(marble, MultiPlayer, LinesNum, shomarande, a, b, sw1);
 		j = tgt % 100;
 		i = (tgt - j) / 100;
 		sw1 = 0;
 		drawmohre(marble, tgt, y, LinesNum, shomarande);
 		reshte = marble[i][j].reshte;
-		if (Capturing(marble, LinesNum)) {
-			if (!reshte) Suicide(marble, LinesNum, tgt, shomarande);
+		if (Capturing(marble, LinesNum,sefid,siaah)) {
+			if (!reshte) Suicide(marble, LinesNum, tgt, shomarande,sefid,siaah);
 			RefreshScreen(marble, LinesNum, x, y);
 		}
 		//halghe(marble, LinesNum);
-		//printmarble(marble, LinesNum);
-		//printf("%d\n", shomarande);
+		EmtiazDehi(marble, LinesNum, shomarande,primesefid,primesiaah);
+		//tempr(marble, LinesNum);
+		printf("\nsefid: %d+%d  ;siaah:%d+%d\n", primesefid , sefid,primesiaah , siaah);
+		printmarble(marble, LinesNum);
 	}
+	scanf_s("%d", &a);
 }
