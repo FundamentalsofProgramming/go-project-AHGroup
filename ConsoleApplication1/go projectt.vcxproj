@@ -157,7 +157,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\Users\berooz\Desktop\a.ogg" />
+    <None Include="C:\Users\berooz\Desktop\aaa.ogg" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +185,7 @@
     <Image Include="C:\Users\berooz\Desktop\f1.png" />
     <Image Include="C:\Users\berooz\Desktop\ferdowsi 1.png" />
     <Image Include="C:\Users\berooz\Desktop\ferdowsi.png" />
+    <Image Include="C:\Users\berooz\Desktop\l.png" />
     <Image Include="C:\Users\berooz\Desktop\load.1.png" />
     <Image Include="C:\Users\berooz\Desktop\load.png" />
     <Image Include="C:\Users\berooz\Desktop\new not commit\13.1.png" />
@@ -197,6 +198,17 @@
     <Image Include="C:\Users\berooz\Desktop\new not commit\6.png" />
     <Image Include="C:\Users\berooz\Desktop\new not commit\7.1.png" />
     <Image Include="C:\Users\berooz\Desktop\new not commit\7.png" />
+    <Image Include="C:\Users\berooz\Desktop\s1.1.png" />
+    <Image Include="C:\Users\berooz\Desktop\s1.png" />
+    <Image Include="C:\Users\berooz\Desktop\s2.1.png" />
+    <Image Include="C:\Users\berooz\Desktop\s2.png" />
+    <Image Include="C:\Users\berooz\Desktop\s3.1.png" />
+    <Image Include="C:\Users\berooz\Desktop\s3.png" />
+    <Image Include="C:\Users\berooz\Desktop\s4.1.png" />
+    <Image Include="C:\Users\berooz\Desktop\s4.png" />
+    <Image Include="C:\Users\berooz\Desktop\s5.1.png" />
+    <Image Include="C:\Users\berooz\Desktop\s5.png" />
+    <Image Include="C:\Users\berooz\Desktop\sabz.png" />
     <Image Include="C:\Users\berooz\Desktop\save.1.png" />
     <Image Include="C:\Users\berooz\Desktop\save.png" />
   </ItemGroup>

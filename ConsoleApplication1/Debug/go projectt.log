@@ -1,4 +1,4 @@
 ﻿  Source.cpp
-g:\projects\go projectt\go projectt\source.cpp(431): warning C4551: function call missing argument list
+g:\projects\go projectt\go projectt\source.cpp(384): warning C4551: function call missing argument list
   go projectt.vcxproj -> G:\projects\go projectt\Debug\go projectt.exe
   go projectt.vcxproj -> G:\projects\go projectt\Debug\go projectt.pdb (Full PDB)

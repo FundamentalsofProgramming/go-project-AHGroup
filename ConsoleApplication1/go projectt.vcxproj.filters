@@ -21,9 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="C:\Users\berooz\Desktop\a.ogg">
-      <Filter>Source Files</Filter>
-    </None>
+    <None Include="C:\Users\berooz\Desktop\aaa.ogg" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includess.h">
@@ -134,6 +132,42 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="C:\Users\berooz\Desktop\f1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s2.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s3.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s4.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s5.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s1.1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s2.1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s3.1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s4.1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\s5.1.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\l.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="C:\Users\berooz\Desktop\sabz.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
