@@ -11,9 +11,9 @@
 #include<math.h>
 struct mohre
 {
-	int x = 0 ;
-	int y =  0 ;
-	int color =  0 ;
+	int x = 0;
+	int y = 0;
+	int color = 0;
 	bool condition = false;
 	int shomarande = 0;
 	int reshte = 0;
@@ -75,12 +75,12 @@ void start(int x, int y) {
 	init_display(x, y);
 	al_rest(2);
 	int j = 0;
-	for (int i = 0; i <125; i++)
+	for (int i = 0; i < 125; i++)
 	{
-	if (i < 61)j = i;
-	al_clear_to_color(al_map_rgb(i, j, 0));
-	al_flip_display();
-	//al_rest(0.04);
+		if (i < 61)j = i;
+		al_clear_to_color(al_map_rgb(i, j, 0));
+		al_flip_display();
+		//al_rest(0.04);
 	}
 
 	/*
@@ -101,14 +101,14 @@ void start(int x, int y) {
 	al_draw_line(x / 7, y - y / 13, i, y - y / 13, al_map_rgb(255, 255, 255), 25);
 	al_flip_display();
 	}
-	
+
 	al_rest(3);*/
 	al_clear_to_color(al_map_rgb(125, 61, 0));
 	al_flip_display();
 	al_rest(1);
-	
+
 }
-void table(mohre marble[20][20],const int LinesNum, int x, int y) {
+void table(mohre marble[20][20], const int LinesNum, int x, int y) {
 	int k = -(9 * y / 11) / (LinesNum - 1);
 	int d = -k;
 	for (int i = 0; i < LinesNum; i++)
@@ -140,7 +140,7 @@ void mouseCourser(float &x, float &y) {
 		}
 	}
 }
-int taghatoeYaab(mohre marble[20][20],float a, float b, const int LinesNum) {
+int taghatoeYaab(mohre marble[20][20], float a, float b, const int LinesNum) {
 	for (int i = 0; i < LinesNum; i++)
 	{
 		for (int j = 0; j < LinesNum; j++)
@@ -152,17 +152,17 @@ int taghatoeYaab(mohre marble[20][20],float a, float b, const int LinesNum) {
 	}
 	return -1;
 }
-void reshte(mohre marble[20][20], int i,int j, int color, const int LinesNum,int shomarande) {
+void reshte(mohre marble[20][20], int i, int j, int color, const int LinesNum, int shomarande) {
 	for (int h = -1; h < 2; h++)
 	{
 		for (int v = -1; v < 2; v++)
 		{
-			if (h*v!=0) continue;
+			if (h*v != 0) continue;
 			if (!h && !v) continue;
-			if (i + h<0 || j + v<0 || i + h >= LinesNum || j + v >= LinesNum)continue;
+			if (i + h < 0 || j + v < 0 || i + h >= LinesNum || j + v >= LinesNum)continue;
 			if (marble[i + h][j + v].condition && marble[i + h][j + v].color == color && marble[i + h][j + v].reshte != shomarande) {
 				marble[i + h][j + v].reshte = shomarande;
-				reshte(marble, i+h,j+v, color, LinesNum,shomarande);
+				reshte(marble, i + h, j + v, color, LinesNum, shomarande);
 			}
 		}
 	}
@@ -182,7 +182,7 @@ void reshte2(mohre marble[20][20], int i, int j, int color, const int LinesNum, 
 		}
 	}
 }
-int Capturing(mohre marble[20][20], int LinesNum,int &sefid,int &siaah) {
+int Capturing(mohre marble[20][20], int LinesNum, int &sefid, int &siaah) {
 	int sw;
 	int sw1 = 0;
 	bool A[20][20] = { false };
@@ -197,12 +197,12 @@ int Capturing(mohre marble[20][20], int LinesNum,int &sefid,int &siaah) {
 				for (int v = -1; v < 2; v++)
 				{
 					if (h*v) continue;
-					if (i + h<0 || j + v<0 || i + h >= LinesNum || j + v >= LinesNum)continue;
-					if (!marble[i+h][j+v].condition) sw = 1;
+					if (i + h < 0 || j + v < 0 || i + h >= LinesNum || j + v >= LinesNum)continue;
+					if (!marble[i + h][j + v].condition) sw = 1;
 					if (sw == 1) break;
 				}
 				if (sw == 1) break;
-				}
+			}
 			if (sw == 0) {
 				A[i][j] = true;
 			}
@@ -247,7 +247,7 @@ int Capturing(mohre marble[20][20], int LinesNum,int &sefid,int &siaah) {
 									//marble[f][l].color = 0;
 									marble[f][l].reshte = 0;
 									sw1++;
-									
+
 								}
 							}
 						}
@@ -269,7 +269,7 @@ void printmarble(mohre marble[20][20], int LinesNum) {
 		printf("\n");
 	}
 }
-void drawmohre(mohre marble[20][20],int tgt, int y, int LinesNum, int shomarande) {
+void drawmohre(mohre marble[20][20], int tgt, int y, int LinesNum, int shomarande) {
 	int c = shomarande % 2;
 	int k;
 	if (LinesNum == 19)k = y / 60;
@@ -282,9 +282,9 @@ void drawmohre(mohre marble[20][20],int tgt, int y, int LinesNum, int shomarande
 	marble[i][j].color = c + 1;
 	marble[i][j].condition = true;
 	marble[i][j].shomarande = shomarande;
-	reshte(marble, i, j, marble[i][j].color, LinesNum,shomarande);
+	reshte(marble, i, j, marble[i][j].color, LinesNum, shomarande);
 }
-int Suicide(mohre marble[20][20], int LinesNum, int tgt,int &shomarande,int &sefid,int &siaah) {
+int Suicide(mohre marble[20][20], int LinesNum, int tgt, int &shomarande, int &sefid, int &siaah) {
 	int j = tgt % 100;
 	int i = (tgt - j) / 100;
 	int sw = 0;
@@ -297,18 +297,18 @@ int Suicide(mohre marble[20][20], int LinesNum, int tgt,int &shomarande,int &sef
 			if (marble[i + h][j + v].color == marble[i][j].color) sw++;
 		}
 	}
-	if (!marble[i][j].condition && (marble[i][j].reshte*(sw-1) ==0)){
+	if (!marble[i][j].condition && (marble[i][j].reshte*(sw - 1) == 0)) {
 		marble[i][j].condition = true;
 		marble[i][j].color = shomarande % 2 + 1;
-		Capturing(marble, LinesNum,sefid,siaah);
+		Capturing(marble, LinesNum, sefid, siaah);
 		if (marble[i][j].condition) {
 			if (marble[i][j].color == 2) siaah--;
 			else sefid--;
 			return 2;
 		}
 		else {
-			if (marble[i][j].color == 2) siaah-=2;
-			else sefid-=2;
+			if (marble[i][j].color == 2) siaah -= 2;
+			else sefid -= 2;
 
 			shomarande--;
 			return 1;
@@ -316,7 +316,7 @@ int Suicide(mohre marble[20][20], int LinesNum, int tgt,int &shomarande,int &sef
 	}
 	return 0;
 }
-void RefreshScreen(mohre marble[20][20],const int LinesNum,int x,int y) {
+void RefreshScreen(mohre marble[20][20], const int LinesNum, int x, int y) {
 	al_clear_to_color(al_map_rgb(125, 61, 0));
 	table(marble, LinesNum, x, y);
 	for (int i = 0; i < LinesNum; i++)
@@ -332,7 +332,7 @@ void RefreshScreen(mohre marble[20][20],const int LinesNum,int x,int y) {
 	al_flip_display;
 }
 void BoolEye(bool eye[20][20], mohre marble[20][20], const int LinesNum) {
-	int sw ;
+	int sw;
 
 	for (int i = 0; i < LinesNum; i++)
 	{
@@ -402,13 +402,13 @@ int SearchAzTah(int A[20], int B[20], int C[20], int D[20]) {
 
 	return 0;
 }
-int BestMove(mohre marble[20][20], const int LinesNum, int shomarande,int sw1) {// age suicide inja nayad oon akhara ke fght ye ja mitoone bezare hamash hamoon ja mizare va oonjam az qza suicide hast 
+int BestMove(mohre marble[20][20], const int LinesNum, int shomarande, int sw1) {// age suicide inja nayad oon akhara ke fght ye ja mitoone bezare hamash hamoon ja mizare va oonjam az qza suicide hast 
 	int tgt = 0;
 	int max = 0;
-	int color = (shomarande+1) % 2 + 1;
+	int color = (shomarande + 1) % 2 + 1;
 	int rate[20][20] = { 0 };
 	bool eye[20][20] = { false };
-	if (sw1==1) {
+	if (sw1 == 1) {
 		int i, j;
 		while (true) {
 			i = rand();
@@ -424,8 +424,8 @@ int BestMove(mohre marble[20][20], const int LinesNum, int shomarande,int sw1) {
 		{
 			if (marble[i][j].condition) continue;
 			if (eye[i][j]) continue;  //   attention::::::this is temp.
-			if (i == 0 || i == LinesNum-1) rate[i][j]++;
-			if (j == 0 || j == LinesNum-1) rate[i][j]++;
+			if (i == 0 || i == LinesNum - 1) rate[i][j]++;
+			if (j == 0 || j == LinesNum - 1) rate[i][j]++;
 			for (int h = -1; h < 2; h++)
 			{
 				for (int v = -1; v < 2; v++)
@@ -446,7 +446,7 @@ int BestMove(mohre marble[20][20], const int LinesNum, int shomarande,int sw1) {
 	}
 	return tgt;
 }
-int nobatdehi(mohre marble[20][20], int MultiPlayer, const int LinesNum,int &shomarande,float &a,float &b,int sw1) {
+int nobatdehi(mohre marble[20][20], int MultiPlayer, const int LinesNum, int &shomarande, float &a, float &b, int sw1) {
 	int tgt = -1;
 	if (MultiPlayer) {
 		while (tgt == -1) {
@@ -463,7 +463,7 @@ int nobatdehi(mohre marble[20][20], int MultiPlayer, const int LinesNum,int &sho
 		}
 
 	}
-	else tgt = BestMove(marble, LinesNum, shomarande,sw1);
+	else tgt = BestMove(marble, LinesNum, shomarande, sw1);
 	shomarande++;
 	return tgt;
 }
@@ -486,7 +486,7 @@ int nobatdehi(mohre marble[20][20], int MultiPlayer, const int LinesNum,int &sho
 			}
 			if (!marble[primei + h][primej + v].condition) continue;
 			if (marble[primei + h][primej + v].color == marble[i][j].color && !A[primei + h][primej + v]) {
-				sw++; 
+				sw++;
 				A[primei + h][primej + v] = sw;
 				if (HalgheRefrence(marble, LinesNum, primei + h, primej + v, A, sw, i, j) == 2) {
 					marble[primei][primej].halghe = (100 * i + j);
@@ -544,7 +544,7 @@ void halghe(mohre marble[20][20], int LinesNum) {
 				}
 				else if (i == 0 || i == LinesNum-1 || j == 0 || j == LinesNum-1) {
 					A[20][20] = { 0 };
-					
+
 					if (HalgheRefrence1(marble, LinesNum, primei, primej, i, j, A, sw)) {
 						marble[i][j].halghe = -(100 * i + j);
 					}
@@ -552,7 +552,7 @@ void halghe(mohre marble[20][20], int LinesNum) {
 		}
 	}
 }*/
-void halghe1(mohre marble[20][20], int LinesNum,int shomarande) {
+void halghe1(mohre marble[20][20], int LinesNum, int shomarande) {
 	for (int i = 0; i < LinesNum; i++)
 	{
 		for (int j = 0; j < LinesNum; j++)
@@ -563,7 +563,7 @@ void halghe1(mohre marble[20][20], int LinesNum,int shomarande) {
 		}
 	}
 }
-int InsideOut(mohre marble[20][20],const int LinesNum, int i, int j) {
+int InsideOut(mohre marble[20][20], const int LinesNum, int i, int j) {
 	int sw1 = 0;
 	int swich = 0;
 	int tgt = 0;
@@ -607,27 +607,28 @@ int InsideOut(mohre marble[20][20],const int LinesNum, int i, int j) {
 			}
 		}
 	}
-		for (int o = 1; o <= LinesNum / 2; o++)
-		{
-			if (i >= LinesNum / 2) {
-				if (marble[i - o][j].halghe) sw1 = marble[i - o][j].halghe;
-			}
-			else if (marble[i + o][j].halghe) {
-				sw1 = marble[i + o][j].halghe;
-			}
+	return 0;
+	for (int o = 1; o <= LinesNum / 2; o++)
+	{
+		if (i >= LinesNum / 2) {
+			if (marble[i - o][j].halghe) sw1 = marble[i - o][j].halghe;
+		}
+		else if (marble[i + o][j].halghe) {
+			sw1 = marble[i + o][j].halghe;
+		}
 
-		}
-		for (int o = 1; o <= LinesNum / 2; o++)
-		{
-			if (j >= LinesNum / 2) {
-				if (sw1 && marble[i][j - o].halghe == sw1) {
-					return i * 100 + (j - o);
-				}
-			}
-			else if (sw1 && marble[i][j + o].halghe == sw1) {
-				return i * 100 + (j + o);
+	}
+	for (int o = 1; o <= LinesNum / 2; o++)
+	{
+		if (j >= LinesNum / 2) {
+			if (sw1 && marble[i][j - o].halghe == sw1) {
+				return i * 100 + (j - o);
 			}
 		}
+		else if (sw1 && marble[i][j + o].halghe == sw1) {
+			return i * 100 + (j + o);
+		}
+	}
 	return 0;
 }
 void EmtiazDehi(mohre marble[20][20], int LinesNum, int &shomarande, int &sefid, int &siaah) {
@@ -660,17 +661,18 @@ void EmtiazDehi(mohre marble[20][20], int LinesNum, int &shomarande, int &sefid,
 			ii = (tgt - j) / 100;
 			marble2[i][j].condition = true;
 			marble2[i][j].color = marble2[ii][jj].color;
+			Capturing(marble2, LinesNum, a, b);
 		}
 	}
 	if (Capturing(marble2, LinesNum, a, b)) {
-
-		/*for (int i = 0; i < LinesNum; i++)
-		{
-			for (int j = 0; j < LinesNum; j++)
+		/*
+			for (int i = 0; i < LinesNum; i++)
 			{
-				if (!reshte) Suicide(marble2, LinesNum, tgt, shomarande, sefid, siaah);
-			}
-		}*/
+				for (int j = 0; j < LinesNum; j++)
+				{
+					if (!reshte) Suicide(marble2, LinesNum, tgt, shomarande, sefid, siaah);
+				}
+			}*/
 	}
 
 	for (int i = 0; i < LinesNum; i++)
@@ -684,26 +686,81 @@ void EmtiazDehi(mohre marble[20][20], int LinesNum, int &shomarande, int &sefid,
 			ii = (tgt - j) / 100;
 			marble2[i][j].condition = true;
 			marble2[i][j].color = marble2[ii][jj].color;
+			Capturing(marble2, LinesNum, a, b);
 		}
 	}
-
-		for (int i = 0; i < LinesNum; i++)
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
 		{
-			for (int j = 0; j < LinesNum; j++)
-			{
-				printf("%d=%d ", marble2[j][i].color,marble2[j][i].condition);
-				//if (!marble2[i][j].condition) continue;
-				if (marble2[i][j].color == 2) sefid++;
-				else if (marble2[i][j].color == 1) siaah++;
-				else if (marble[i][j].condition) {
-					if (marble[i][j].color == 1) sefid++;
-					if (marble[i][j].color == 2) siaah++;
-				}
-			}
-			printf("\n\n");
+			if (marble2[i][j].condition) continue;
+			tgt = InsideOut(marble, LinesNum, i, j);
+			if (!tgt) continue;
+			jj = tgt % 100;
+			ii = (tgt - j) / 100;
+			marble2[i][j].condition = true;
+			marble2[i][j].color = marble2[ii][jj].color;
 		}
-		
-	
+	}
+	for (int i = 0; i < LinesNum; i++)
+	{
+		for (int j = 0; j < LinesNum; j++)
+		{
+			printf("%d=%d ", marble2[j][i].color, marble2[j][i].condition);
+			//if (!marble2[i][j].condition) continue;
+			if (marble2[i][j].color == 2) sefid++;
+			else if (marble2[i][j].color == 1) siaah++;
+			else if (marble[i][j].condition) {
+				if (marble[i][j].color == 1) sefid++;
+				if (marble[i][j].color == 2) siaah++;
+			}
+		}
+		printf("\n\n");
+	}
+
+
+}
+int save(mohre marble[20][20], int shomarande, int sefid, int siaah, int savenumber, int multiplayer, int LinesNum) {
+	FILE *outputfile;
+	outputfile = fopen("save.dat", "wb");
+	if (!outputfile) {
+		return 0;
+	}
+	fseek(outputfile, savenumber*(10 * sizeof(int) + 400 * sizeof(mohre)), SEEK_SET);
+	fwrite(&LinesNum, sizeof(int), 1, outputfile);
+	fwrite(&sefid, sizeof(int), 1, outputfile);
+	fwrite(&siaah, sizeof(int), 1, outputfile);
+	fwrite(&multiplayer, sizeof(int), 1, outputfile);
+	fwrite(&shomarande, sizeof(int), 1, outputfile);
+	for (int i = 0; i < 20; i++)
+	{
+		for (int j = 0; j < 20; j++)
+		{
+			fwrite(&marble[i][j], sizeof(mohre), 1, outputfile);
+		}
+	}
+	return 1;
+}
+int load(mohre marble[20][20], int &shomarande, int &sefid, int &siaah, int &LinesNum, int &multiplayer, int loadnumber) {
+	FILE *inputfile;
+	inputfile = fopen("save.dat", "rb");
+	if (!inputfile) {
+		return 0;
+	}
+	fseek(inputfile, loadnumber*(10 * sizeof(int) + 400 * sizeof(mohre)), SEEK_SET);
+	if (!fread(&LinesNum, sizeof(int), 1, inputfile)) return 0;
+	fread(&sefid, sizeof(int), 1, inputfile);
+	fread(&siaah, sizeof(int), 1, inputfile);
+	fread(&multiplayer, sizeof(int), 1, inputfile);
+	fread(&shomarande, sizeof(int), 1, inputfile);
+	for (int i = 0; i < 20; i++)
+	{
+		for (int j = 0; j < 20; j++)
+		{
+			fread(&marble[i][j], sizeof(mohre), 1, inputfile);
+		}
+	}
+	return 1;
 }
 int main() {
 	mohre marble[20][20];
@@ -723,23 +780,24 @@ int main() {
 
 	GetDisplayResolution(x, y);
 	start(x, y);
-	table(marble,LinesNum, x, y);
+	table(marble, LinesNum, x, y);
 	al_flip_display();
-	while (shomarande<100) {
+	while (shomarande < 100) {
 		tgt = nobatdehi(marble, MultiPlayer, LinesNum, shomarande, a, b, sw1);
 		j = tgt % 100;
 		i = (tgt - j) / 100;
 		sw1 = 0;
 		drawmohre(marble, tgt, y, LinesNum, shomarande);
 		reshte = marble[i][j].reshte;
-		if (Capturing(marble, LinesNum,sefid,siaah)) {
-			if (!reshte) Suicide(marble, LinesNum, tgt, shomarande,sefid,siaah);
+		if (Capturing(marble, LinesNum, sefid, siaah)) {
+			if (!reshte) Suicide(marble, LinesNum, tgt, shomarande, sefid, siaah);
 			RefreshScreen(marble, LinesNum, x, y);
 		}
 		//halghe(marble, LinesNum);
-		EmtiazDehi(marble, LinesNum, shomarande,primesefid,primesiaah);
+		sefid = siaah = 0;
+		EmtiazDehi(marble, LinesNum, shomarande, primesefid, primesiaah);
 		//tempr(marble, LinesNum);
-		printf("\nsefid: %d+%d  ;siaah:%d+%d\n", primesefid , sefid,primesiaah , siaah);
+		printf("\nsefid: %d+%d  ;siaah:%d+%d\n", primesefid, sefid, primesiaah, siaah);
 		printmarble(marble, LinesNum);
 	}
 	scanf_s("%d", &a);
